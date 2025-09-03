@@ -7,9 +7,7 @@ LD=arm-none-eabi-ld
 SRC=main.c second.c
 OBJS=$(patsubst %.c,%.o,$(SRC))
 
-.PHONY: clean all
-
-all: firmware.elf
+all: firmware.elf 
 
 firmware.elf: $(OBJS)
 	$(LD) -o $@ $^
@@ -27,4 +25,6 @@ hello.txt:
 	echo "hello world!" > hello.txt
 
 clean:
-	rm -f main.i hello.txt
+	rm -f *.i *.o *.s hello.txt firmware.elf
+
+.PHONY: clean all
