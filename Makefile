@@ -1,7 +1,18 @@
-PICO_TOOLCHAIN_PATH=$(HOME)/modules/pico-sdk
+PICO_TOOLCHAIN_PATH=/usr/local/bin/
 CPP=arm-none-eabi-cpp
 CC=arm-none-eabi-gcc
 AS=arm-none-eabi-as
+LD=arm-none-eabi-ld
+
+SRC=main.c second.c
+OBJS=$(patsubst %.c,%.o,$(SRC))
+
+.PHONY: clean all
+
+all: firmware.elf
+
+firmware.elf: $(OBJS)
+	$(LD) -o $@ $^
 
 %.o: %.s
 	$(AS) $< -o $@
@@ -15,6 +26,5 @@ AS=arm-none-eabi-as
 hello.txt:
 	echo "hello world!" > hello.txt
 
-.PHONY: clean
 clean:
 	rm -f main.i hello.txt
